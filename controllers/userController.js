@@ -26,7 +26,7 @@ exports.register = function(req, res) {
   let user = new User(req.body)
   user.register()
   if(user.errors.length){
-     user.errors.forEach(function(rror){
+     user.errors.forEach(function(error){
        req.flash('regErrors', error)
      })
      req.session.save(function(){
