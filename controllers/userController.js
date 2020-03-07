@@ -33,7 +33,6 @@ exports.logout = function(req, res) {
 }
 
 exports.register = function(req, res) {
-  console.log(req.body)
   let user = new User(req.body)
   user.register().then(()=>{
      req.session.user = {username: user.data.username, avatar: user.avatar, _id: user.data._id}
