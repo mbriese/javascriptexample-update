@@ -7,7 +7,7 @@ let User = function(data, getAvatar) {
   this.data = data
   this.errors = []
   if (getAvatar == undefined) {getAvatar = false}
-  if (getAvatar) {this.getAvatar}
+  if (getAvatar) {this.getAvatar()}
 }
 
 User.prototype.cleanUp = function() {
@@ -27,7 +27,7 @@ User.prototype.cleanUp = function() {
 }
 
 User.prototype.validate = function(){
-  return new Promise(async (resolve, reject)=> {
+  return new Promise(async (resolve, reject)=>{
     if (this.data.username == "") {this.errors.push("You must provide a username.")}
     if (this.data.username != "" && !validator.isAlphanumeric(this.data.username)) {this.errors.push("Username can only contain letters and numbers.")}
     if (!validator.isEmail(this.data.email)) {this.errors.push("You must provide a valid email address.")}
@@ -92,7 +92,7 @@ User.prototype.register = function(){
 }
 
 User.prototype.getAvatar = function(){
-  this.avatar = `https://gravatar.com/avatar/${md5(this.data.email)}?s=128`
+  this.avatar = `https://s.gravatar.com/avatar/${md5(this.data.email)}?s=128`
 }
 
 module.exports = User

@@ -60,6 +60,7 @@ Post.findSingleById = function(id) {
           author: {$arrayElemAt: ["$authorDocument", 0]}
         }}
       ]).toArray()
+      
 
      // clean up author property in each post object
     posts = posts.map(function(post) {

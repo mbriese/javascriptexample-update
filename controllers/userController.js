@@ -28,15 +28,15 @@ exports.login = function(req, res) {
 
 exports.logout = function(req, res) {
   req.session.destroy(function() {
-     res.redirect('/')
+    res.redirect('/')
   })
 }
 
 exports.register = function(req, res) {
   let user = new User(req.body)
   user.register().then(()=>{
-     req.session.user = {username: user.data.username, avatar: user.avatar, _id: user.data._id}
-     req.session.save(function(){
+    req.session.user = {username: user.data.username, avatar: user.avatar, _id: user.data._id}
+    req.session.save(function(){
       res.redirect('/')
     })
   }).catch((regErrors)=>{
@@ -47,7 +47,7 @@ exports.register = function(req, res) {
       res.redirect('/')
     })
   })
- }
+}
 
 exports.home = function(req, res) {
   if (req.session.user) {
