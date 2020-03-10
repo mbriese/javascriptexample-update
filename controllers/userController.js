@@ -59,10 +59,10 @@ exports.home = function(req, res) {
 }
 
 exports.ifUserExists = function(req, res, next) {
- User.findByUsername(req.params.username).then(function(userDocument){
+ User.findByUsername(req.params.username).then(function(userDocument) {
    req.profileUser = userDocument
    next()
- }).catch(function(){
+ }).catch(function() {
    res.render("404")
  })
 }
