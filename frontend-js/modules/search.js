@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default class Search {
     // 1. Select DOM elements, and keep track of any useful data
     constructor() {
@@ -23,13 +25,12 @@ export default class Search {
         })
     }
 
-
     // 3. Methods
     keyPressHandler() {
         let value = this.inputField.value
 
-        if (value != ""  && value != this.previousValue) {
-          this.clearTimeout(this.typingWaitTimer)
+        if (value != "" && value != this.previousValue) {
+          clearTimeout(this.typingWaitTimer)
           this.showLoaderIcon()
           this.typingWaitTimer = setTimeout(() => this.sendRequest(), 3000)
         }
@@ -38,7 +39,11 @@ export default class Search {
     }
 
     sendRequest() {
-        alert("Send request method just ran")
+        axios.post('/search', {searchTerm: this.inputField.value}).then(response => {
+          console.log(response.data)
+        }).catch(() => {
+          alert("Hello, the request failed.")
+        })
     }
 
     showLoaderIcon() {
@@ -54,8 +59,9 @@ export default class Search {
         this.overlay.classList.remove("search-overlay--visible")
     }
 
+
     injectHTML() {
-        document.body.insertAdjacentHTML('beforeend', `  <div class="search-overlay ">
+        document.body.insertAdjacentHTML('beforeend', `<div class="search-overlay">
         <div class="search-overlay-top shadow-sm">
           <div class="container container--narrow">
             <label for="live-search-field" class="search-overlay-icon"><i class="fas fa-search"></i></label>
