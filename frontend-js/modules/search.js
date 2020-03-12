@@ -1,14 +1,13 @@
 export default class Search {
-    // Organization notes
-    // Select DOM elements, and keep track of any useful data
+    // 1. Select DOM elements, and keep track of any useful data
     constructor() {
         this.headerSearchIcon = document.querySelector(".header-search-icon")
         this.events()
     }
 
-    // Events
+    // 2. Events
     events() {
-        this.HeaderSearchIcon.addEventListener("click", (e) => {
+        this.headerSearchIcon.addEventListener("click", (e) => {
           e.preventDefault()
           this.openOverlay()
         })
