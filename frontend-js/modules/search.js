@@ -39,7 +39,7 @@ export default class Search {
           clearTimeout(this.typingWaitTimer)
           this.showLoaderIcon()
           this.hideResultsArea()
-          this.typingWaitTimer = setTimeout(() => this.sendRequest(), 3000)
+          this.typingWaitTimer = setTimeout(() => this.sendRequest(), 750)
         }
 
         this.previousValue = value
@@ -48,7 +48,7 @@ export default class Search {
     sendRequest() {
         axios.post('/search', {searchTerm: this.inputField.value}).then(response => {
           console.log(response.data)
-          this.renderResultsHTML(respnse.data)
+          this.renderResultsHTML(response.data)
         }).catch(() => {
           alert("Hello, the request failed.")
         })
@@ -56,7 +56,7 @@ export default class Search {
 
    renderResultsHTML(posts) {
      if (posts.length) {
-        this.resultsArea = `         <div class="list-group shadow-sm">
+        this.resultsArea.innerHTML = `<div class="list-group shadow-sm">
         <div class="list-group-item active"><strong>Search Results</strong> (4 items found)</div>
 
         <a href="#" class="list-group-item list-group-item-action">
@@ -77,10 +77,10 @@ export default class Search {
         </a>
       </div>`
      } else {
-        this.resultsArea = `<p class="alert alert-danger text-center shadoq-sm>Sorry, we could not find any results for that text."</p>`
+      this.resultsArea.innerHTML = `<p class="alert alert-danger text-center shadow-sm">Sorry, we could not find any results for that search."</p>`
      }
-     this.hideLoaderIcon()
-     this.showResultsArea()
+      this.hideLoaderIcon()
+      this.showResultsArea()
    }
 
     showLoaderIcon() {
