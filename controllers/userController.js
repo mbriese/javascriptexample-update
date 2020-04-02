@@ -12,16 +12,16 @@ exports.sharedProfileData = async function(req, res, next) {
 
   req.isVisitorsProfile = isVisitorsProfile 
   req.isFollowing = isFollowing
-  // retrive post, follower and following counts
+  // retrieve post, follower, and following counts
   let postCountPromise = Post.countPostsByAuthor(req.profileUser._id)
-  let followersCountPromise = Follow.countFollowersById(req.profileUser._id)
-  let followingCountPromise = Follow.countFollowingById(req.profileUser._id)
-  
-  let [postCount, followersCount, followingCount] = await Promise.all([postCountPromise, followersCountPromise, followingCountPromise])
+  let followerCountPromise = Follow.countFollowersById(req.profileUser._id)
+  let followingCountPromise = Follow.countFollowingById(req.profileUser._id)  
+  let [postCount, followerCount, followingCount] = await Promise.all([postCountPromise, followerCountPromise, followingCountPromise])
 
   req.postCount = postCount
-  req.followersCount = followersCount
+  req.followerCount = followerCount
   req.followingCount = followingCount
+
   next()
 }
 
@@ -101,7 +101,8 @@ exports.profilePostsScreen = function(req, res) {
     profileUsername: req.profileUser.username,
     profileAvatar: req.profileUser.avatar,
     isFollowing: req.isFollowing,
-    isVisitorsProfile: req.isVisitorsProfile
+    isVisitorsProfile: req.isVisitorsProfile,
+    counts: {postCount: req.postCount, followerCount: req.followerCount, followingCount: req.followingCount}
   })
  }).catch(function() {
    res.render("404")
@@ -118,7 +119,8 @@ exports.profileFollowersScreen = async function(req, res) {
       profileUsername: req.profileUser.username,
       profileAvatar: req.profileUser.avatar,
       isFollowing: req.isFollowing,
-      isVisitorsProfile: req.isVisitorsProfile
+      isVisitorsProfile: req.isVisitorsProfile,
+      counts: {postCount: req.postCount, followerCount: req.followerCount, followingCount: req.followingCount}
   })
 } catch {
    res.render("404")

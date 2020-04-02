@@ -114,16 +114,16 @@ Follow.getFollowingById = function(id) {
   })
 }
 
-Follow.countFollowersById() = function(id){
+Follow.countFollowersById = function(id) {
   return new Promise(async (resolve, reject) => {
-    let followerCount = await followerCollection.countDocuments({followedId: id})
+    let followerCount = await followsCollection.countDocuments({followedId: id})
     resolve(followerCount)
   })
 }
 
-Follow.countFolloweringById() = function(id){
+Follow.countFollowingById = function(id) {
   return new Promise(async (resolve, reject) => {
-    let count = await followingCollection.countDocuments({authorId: id})
+    let count = await followsCollection.countDocuments({authorId: id})
     resolve(count)
   })
 }
