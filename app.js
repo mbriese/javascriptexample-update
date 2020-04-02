@@ -35,7 +35,6 @@ res.locals.user = req.session.user
   next()
 })
 
-
 const router = require('./router')
 
 app.use(express.urlencoded({extended: false}))
