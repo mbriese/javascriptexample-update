@@ -41,9 +41,13 @@ export default class Chat {
 
    openConnection() {
        this.socket = io()
-       this.socket.on('chatMessageFromServer', function(data) {
-           alert(data.message)
+       this.socket.on('chatMessageFromServer', (data) => {
+           this.displayMessageFromServer(data)
        })
+   }
+
+   displayMessageFromServer(data) {
+       this.chatLog.insertAdjacentHTML('beforeend', `<p>${data.message}</p>`)
    }
 
    injectHTML() {
