@@ -52,7 +52,7 @@ const io = require('socket.io')(server)
 
 io.on('connection', function(socket) {
   socket.on('chatMessageFromBrowser', function(data) {
-    io.emit('message from server', {message: data.message})
+    io.emit('chatMessageFromServer', {message: data.message})
   })
 })
 
