@@ -4,6 +4,7 @@ export default class Chat {
         this.chatWrapper = document.querySelector("#chat-wrapper")
         this.openIcon = document.querySelector(".header-chat-icon")
         this.injectHTML()
+        this.chatLog = document.querySelector("#chat")
         this.chatField = document.querySelector("#chatField")
         this.chatForm = document.querySelector("#chatForm")
         this.closeIcon = document.querySelector(".chat-title-bar-close")
@@ -31,23 +32,30 @@ export default class Chat {
         this.chatWrapper.classList.remove("chat--visible")
        }
 
-   showChat() {
+    showChat() {
        if (!this.openedYet) {
           this.openConnection()
        }
        this.openedYet = true
        this.chatWrapper.classList.add("chat--visible")
-   }
+       this.chatField.focus()
+    }
 
    openConnection() {
        this.socket = io()
        this.socket.on('chatMessageFromServer', (data) => {
-           this.displayMessageFromServer(data)
+           alert(data.message)
        })
    }
 
    displayMessageFromServer(data) {
-       this.chatLog.insertAdjacentHTML('beforeend', `<p>${data.message}</p>`)
+       this.chatLog.insertAdjacentHTML('beforeend', `
+       <div class="chat-other">
+       <a href="#"><img class="avatar-tiny" src="https://gravatar.com/avatar/b9216295c1e3931655bae6574ac0e4c2?s=128"></a>
+       <div class="chat-message"><div class="chat-message-inner">
+         <a href="#"><strong>barksalot:</strong></a>
+         ${data.message}
+       </div></div>`)
    }
 
    injectHTML() {
