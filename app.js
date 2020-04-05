@@ -60,7 +60,7 @@ io.on('connection', function(socket) {
     socket.emit('welcome', {username: user.username, avatar: user.avatar})
 
     socket.on('chatMessageFromBrowser', function(data) {
-      io.emit('chatMessageFromServer', {message: sanitizeHTML(data.message, {allowedTags: [], allowedAttributes: {}}), username: user.username, avatar: user.avatar})
+      socket.broadcast.emit('chatMessageFromServer', {message: sanitizeHTML(data.message, {allowedTags: [], allowedAttributes: {}}), username: user.username, avatar: user.avatar})
     })
   }
 })

@@ -2,7 +2,7 @@ import Search from './modules/search'
 import Chat from './modules/chat'
 import RegistrationForm from './modules/registrationForm'
 
-if (document.querySelector("#registration-form")){
+if (document.querySelector("#registration-form")) {
   new RegistrationForm()
 }
 
