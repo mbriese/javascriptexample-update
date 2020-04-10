@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const Post = require('../models/Post')
 const Follow = require('../models/Follow')
+const jwt = require('jsonwebtoken')
 
 exports.sharedProfileData = async function(req, res, next) {
   let isVisitorsProfile = false
@@ -48,6 +49,15 @@ exports.login = function(req, res) {
     req.session.save(function() {
       res.redirect('/')
     })
+  })
+}
+
+exports.apiLogin = function(req, res) {
+  let user = new User(req.body)
+  user.login().then(function(result) {
+      res.json(jwt.sign({_id: user.data._id}, process.env.JWTSECRET, {expiresIn: '7d'}))
+  }).catch(function(e) {
+      res.json("Sorry those values are not correct.")
   })
 }
 
