@@ -3,6 +3,28 @@ const Post = require('../models/Post')
 const Follow = require('../models/Follow')
 const jwt = require('jsonwebtoken')
 
+exports.apiMustBeLoggedIn = function(req, res, next) {
+  try {
+    req.apiUser = jwt.verify(req.body.token, process.env.JWTSECRET)
+    next()
+  } catch {
+    res.json("Sorry, you must provide a valid token.")
+  }
+}
+
+exports.doesUsernameExist = function(req, res) {
+  User.findByUsername(req.body.username).then(function() {
+    res.json(true)
+  }).catch(function() {
+    res.json(false)
+  })
+}
+
+exports.doesEmailExist = async function(req, res) {
+  let emailBool = await User.doesEmailExist(req.body.email)
+  res.json(emailBool)
+}
+
 exports.sharedProfileData = async function(req, res, next) {
   let isVisitorsProfile = false
   let isFollowing = false
@@ -57,7 +79,7 @@ exports.apiLogin = function(req, res) {
   user.login().then(function(result) {
       res.json(jwt.sign({_id: user.data._id}, process.env.JWTSECRET, {expiresIn: '7d'}))
   }).catch(function(e) {
-      res.json("Sorry those values are not correct.")
+      res.json("Sorry, your values are not correct.")
   })
 }
 
@@ -106,9 +128,8 @@ exports.ifUserExists = function(req, res, next) {
 exports.profilePostsScreen = function(req, res) {
  // ask our post model for posts by a certain author id
  Post.findByAuthorId(req.profileUser._id).then(function(posts) {
-  console.log(req.profileUser)
   res.render('profile', {
-    title: `Profile for ${req.profileUser.username} `,
+    title: `Profile for ${req.profileUser.username}`,
     currentPage: "posts",
     posts: posts,
     profileUsername: req.profileUser.username,
