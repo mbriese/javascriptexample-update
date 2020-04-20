@@ -24,6 +24,14 @@ exports.create = function(req, res) {
   })
 }
 
+exports.apiDelete = function(req, res) {
+  Post.delete(req.params.id, req.apiUser._id).then(() => {
+     res.json("Success")
+  }).catch(() => {
+    res.json("You do not have permission to perform that action.")
+  })
+}
+
  exports.viewSingle = async function(req, res) {
     try {
        let post = await Post.findSingleById(req.params.id, req.visitorId)
